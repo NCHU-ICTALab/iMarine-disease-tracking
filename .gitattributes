@@ -1,0 +1,5 @@
+# 統一文字檔為 LF 換行，避免 Windows/其他平台換行差異造成雜訊
+* text=auto eol=lf
+
+# 二進位檔不做換行轉換
+*.db binary

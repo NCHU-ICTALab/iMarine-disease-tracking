@@ -1,0 +1,152 @@
+# 病原規則表（規則式風險評分依據，對應報告書 P.12：新病原只需補規則、不需重訓）
+# 欄位：
+#   incubation_min/max : 潛伏期天數範圍（決定時序比對窗口）
+#   transmissibility    : 對港邊人員的人傳人風險 0-1（呼吸道高、病媒/食物低）
+#   severity            : 疾病嚴重度 0-1（致死率 / 公衛關注度）
+#   pheic               : 是否屬國際關注公共衛生緊急事件（基準值）
+#   route               : 傳播途徑（用於防護建議文字）
+#   match               : 疾病名關鍵字（中英，子字串比對；涵蓋疾管署中文與 WHO 英文）
+
+default:            # 未知 / 新興病原的保守預設（確保仍可評分）
+  incubation_min: 2
+  incubation_max: 14
+  transmissibility: 0.5
+  severity: 0.5
+  pheic: false
+  route: unknown
+
+pathogens:
+  - name: COVID-19
+    incubation_min: 2
+    incubation_max: 14
+    transmissibility: 0.95
+    severity: 0.6
+    pheic: true
+    route: respiratory
+    match: ["covid", "sars-cov-2", "新型冠狀", "新冠", "嚴重特殊傳染性肺炎"]
+
+  - name: Influenza
+    incubation_min: 1
+    incubation_max: 4
+    transmissibility: 0.85
+    severity: 0.4
+    pheic: false
+    route: respiratory
+    match: ["influenza", "流感", "流行性感冒", "禽流感", "avian influenza"]
+
+  - name: MERS
+    incubation_min: 2
+    incubation_max: 14
+    transmissibility: 0.7
+    severity: 0.8
+    pheic: false
+    route: respiratory
+    match: ["mers", "中東呼吸"]
+
+  - name: Measles
+    incubation_min: 7
+    incubation_max: 21
+    transmissibility: 0.98
+    severity: 0.5
+    pheic: false
+    route: respiratory
+    match: ["measles", "麻疹"]
+
+  - name: Diphtheria
+    incubation_min: 1
+    incubation_max: 10
+    transmissibility: 0.75
+    severity: 0.6
+    pheic: false
+    route: respiratory
+    match: ["diphtheria", "白喉"]
+
+  - name: Ebola
+    incubation_min: 2
+    incubation_max: 21
+    transmissibility: 0.8
+    severity: 0.95
+    pheic: true
+    route: bodily_fluids
+    match: ["ebola", "伊波拉"]
+
+  - name: Marburg
+    incubation_min: 2
+    incubation_max: 21
+    transmissibility: 0.8
+    severity: 0.95
+    pheic: true
+    route: bodily_fluids
+    match: ["marburg", "馬堡"]
+
+  - name: Mpox
+    incubation_min: 5
+    incubation_max: 21
+    transmissibility: 0.7
+    severity: 0.55
+    pheic: true
+    route: contact
+    match: ["mpox", "monkeypox", "猴痘", "m痘"]
+
+  - name: Plague
+    incubation_min: 1
+    incubation_max: 7
+    transmissibility: 0.75
+    severity: 0.85
+    pheic: false
+    route: respiratory
+    match: ["plague", "鼠疫", "pneumonic plague"]
+
+  - name: Cholera
+    incubation_min: 1
+    incubation_max: 5
+    transmissibility: 0.45
+    severity: 0.6
+    pheic: false
+    route: waterborne
+    match: ["cholera", "霍亂"]
+
+  - name: Nipah
+    incubation_min: 4
+    incubation_max: 21
+    transmissibility: 0.6
+    severity: 0.9
+    pheic: true
+    route: contact
+    match: ["nipah", "立百"]
+
+  - name: Yellow fever
+    incubation_min: 3
+    incubation_max: 6
+    transmissibility: 0.2
+    severity: 0.7
+    pheic: false
+    route: vector
+    match: ["yellow fever", "黃熱"]
+
+  - name: Dengue
+    incubation_min: 4
+    incubation_max: 14
+    transmissibility: 0.15
+    severity: 0.4
+    pheic: false
+    route: vector
+    match: ["dengue", "登革"]
+
+  - name: Malaria
+    incubation_min: 7
+    incubation_max: 30
+    transmissibility: 0.1
+    severity: 0.5
+    pheic: false
+    route: vector
+    match: ["malaria", "瘧疾"]
+
+  - name: Poliomyelitis
+    incubation_min: 7
+    incubation_max: 21
+    transmissibility: 0.6
+    severity: 0.6
+    pheic: true
+    route: faecal_oral
+    match: ["polio", "小兒麻痺", "急性無力肢體麻痺", "acute flaccid"]

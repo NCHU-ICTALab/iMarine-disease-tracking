@@ -1,0 +1,71 @@
+{
+  "_comment": "模擬 AIS 靠港序列。所有船最後皆抵達 TWKHH（高雄港）。時間為 2026-06/07，naive ISO。",
+  "ships": [
+    {
+      "ship_code": "EVERGLORY01",
+      "mmsi": "416001001",
+      "imo": "9100001",
+      "name": "Ever Glory",
+      "calls": [
+        {"port": "HKHKG", "arrival": "2026-06-22T08:00:00", "departure": "2026-06-24T20:00:00"},
+        {"port": "CNSHA", "arrival": "2026-06-26T06:00:00", "departure": "2026-06-27T18:00:00"},
+        {"port": "TWKHH", "arrival": "2026-06-29T09:00:00", "departure": null}
+      ]
+    },
+    {
+      "ship_code": "PACIFICSTAR",
+      "mmsi": "563002002",
+      "imo": "9100002",
+      "name": "Pacific Star",
+      "calls": [
+        {"port": "SGSIN", "arrival": "2026-06-24T10:00:00", "departure": "2026-06-25T22:00:00"},
+        {"port": "VNSGN", "arrival": "2026-06-28T07:00:00", "departure": "2026-06-29T12:00:00"},
+        {"port": "TWKHH", "arrival": "2026-06-30T15:00:00", "departure": null}
+      ]
+    },
+    {
+      "ship_code": "OCEANDUKE07",
+      "mmsi": "371003003",
+      "imo": "9100003",
+      "name": "Ocean Duke",
+      "calls": [
+        {"port": "PKKHI", "arrival": "2026-06-14T05:00:00", "departure": "2026-06-16T18:00:00"},
+        {"port": "INBOM", "arrival": "2026-06-20T08:00:00", "departure": "2026-06-21T20:00:00"},
+        {"port": "SGSIN", "arrival": "2026-06-27T06:00:00", "departure": "2026-06-28T10:00:00"},
+        {"port": "TWKHH", "arrival": "2026-07-01T09:00:00", "departure": null}
+      ]
+    },
+    {
+      "ship_code": "NIPPONMARU9",
+      "mmsi": "431004004",
+      "imo": "9100004",
+      "name": "Nippon Maru",
+      "calls": [
+        {"port": "JPTYO", "arrival": "2026-06-24T09:00:00", "departure": "2026-06-25T18:00:00"},
+        {"port": "KRPUS", "arrival": "2026-06-27T07:00:00", "departure": "2026-06-28T14:00:00"},
+        {"port": "TWKHH", "arrival": "2026-06-29T20:00:00", "departure": null}
+      ]
+    },
+    {
+      "ship_code": "MANILAEXP12",
+      "mmsi": "548005005",
+      "imo": "9100005",
+      "name": "Manila Express",
+      "calls": [
+        {"port": "PHMNL", "arrival": "2026-06-26T06:00:00", "departure": "2026-06-27T20:00:00"},
+        {"port": "HKHKG", "arrival": "2026-06-29T08:00:00", "departure": "2026-06-30T12:00:00"},
+        {"port": "TWKHH", "arrival": "2026-07-01T18:00:00", "departure": null}
+      ]
+    },
+    {
+      "ship_code": "OLDCALLTEST",
+      "mmsi": "999006006",
+      "imo": "9100006",
+      "name": "Old Call Test",
+      "calls": [
+        {"port": "IDJKT", "arrival": "2026-04-10T06:00:00", "departure": "2026-04-12T20:00:00"},
+        {"port": "TWKHH", "arrival": "2026-06-28T10:00:00", "departure": null}
+      ]
+    }
+  ]
+}
