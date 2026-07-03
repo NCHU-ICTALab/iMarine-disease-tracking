@@ -4,4 +4,3 @@ __pycache__/
 .env
 data/*.db
 .pytest_cache/
-docs/資料來源與真假對照.md
