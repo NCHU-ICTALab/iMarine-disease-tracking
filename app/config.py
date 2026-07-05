@@ -38,6 +38,13 @@ class Settings(BaseSettings):
     ais_provider: str = "mock"            # mock | aisstream
     ais_mock_file: str = str(DATA_DIR / "mock_ais.json")
     aisstream_api_key: str = ""
+    # aisstream 即時收集參數
+    ais_bbox: list = [[[21.0, 119.0], [26.5, 122.5]]]  # 台灣周邊（含高雄港）
+    ais_collect_seconds: float = 45.0     # 每次連線收集秒數
+    ais_port_radius_km: float = 25.0      # 距港口座標多近視為「在港」
+    ais_port_max_sog: float = 3.0         # SOG 高於此值視為過境、非靠港（節）
+    ais_sightings_file: str = str(DATA_DIR / "ais_sightings.json")
+    ports_seed_file: str = str(DATA_DIR / "ports_seed.csv")
 
     # 風險 / 推播
     notify_min_level: str = "high"        # low | medium | high | critical

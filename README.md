@@ -62,6 +62,8 @@ python -m venv .venv
 | `export_demo.py` | 用**資料庫現有資料**重算並輸出 `demo_output.json`（不重抓疫情） | 只想重出結果、不需更新疫情時 | 否 |
 | `demo_assess.py` | 在終端機印出評估過程與**可解釋計分明細**（含各維度分數、衰減） | 想了解「分數是怎麼算出來的」 | 否 |
 | `probe_sources.py` | 直接打疾管署 CSV 與 WHO API，印出**原始欄位與樣本** | 檢查資料來源是否正常、欄位有無變動 | ✅ 是 |
+| `collect_ais.py` | 連 **aisstream.io** 即時串流一次，偵測靠港並累積到 `data/ais_sightings.json` | 用真實 AIS 時，多次執行/掛排程讓靠港序列補齊 | ✅ 是 |
+| `collect_ais_loop.py` | **持續**收集數小時（每輪收集+間隔），不斷累積 sightings | 想在本機長時間累積真實靠港序列時 | ✅ 是 |
 
 **一般流程**：第一次 `seed.py` → 之後每次要看最新結果就 `run_latest.py` → 打開 `demo_output.json` 看。
 
@@ -137,7 +139,8 @@ python -m venv .venv
 - 疾管署 國際旅遊疫情建議等級表 CSV（結構化主軸，含 ISO 國別碼/等級/日期）
 - WHO Disease Outbreak News（OData JSON，權威補強 + PHEIC）
 - 港口主檔：`data/ports_seed.csv`（可換 improved-un-locodes）
-- AIS：`data/mock_ais.json`（介面可換 aisstream / 付費 API）
+- AIS：**aisstream.io 即時串流**（`AIS_PROVIDER=aisstream`，真實船位）；或 `data/mock_ais.json`（`AIS_PROVIDER=mock`，可重現 demo）
+  - ⚠️ aisstream 只給即時船位、無航跡歷史；系統以「港口鄰近+低船速」偵測靠港並累積到 `data/ais_sightings.json`，序列隨排程逐步補齊。詳見 [`docs/資料來源與真假對照.md`](docs/資料來源與真假對照.md)
 
 > **哪些是真資料、哪些是測試假資料、各自來源與時間** → 見 [`docs/資料來源與真假對照.md`](docs/資料來源與真假對照.md)。
 > 更完整的來源分析見上層 `../疫情自動追溯_實作計畫.md` §8。

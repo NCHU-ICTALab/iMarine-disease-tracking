@@ -3,4 +3,7 @@ __pycache__/
 *.pyc
 .env
 data/*.db
+data/ais_sightings.json
+data/aisstream_sample.json
+data/collect_loop.log
 .pytest_cache/

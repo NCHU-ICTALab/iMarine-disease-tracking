@@ -12,13 +12,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from app.config import settings                  # noqa: E402
 from app.db import SessionLocal, init_db          # noqa: E402
 from app.governance.ports import load_ports_from_seed  # noqa: E402
 from app.pipeline import refresh_outbreaks, refresh_ais, assess_all  # noqa: E402
 from app.service.presenter import clean_bundle    # noqa: E402
 from app.models import Notification               # noqa: E402
 
-AS_OF = datetime(2026, 7, 3)
+# 真實串流（aisstream）的靠港時間是「現在」，用當下時間評估；
+# 模擬資料的時間停在 2026-07 上旬，沿用固定 AS_OF 讓 demo 可重現。
+AS_OF = datetime.utcnow() if settings.ais_provider.lower() == "aisstream" else datetime(2026, 7, 3)
 
 
 def main() -> None:
@@ -31,7 +34,8 @@ def main() -> None:
         print("      疾管署:", ob.get("cdc"))
         print("      WHO   :", ob.get("who"))
 
-        print("[2/3] 匯入 AIS 靠港紀錄（模擬船）...")
+        src = "aisstream 即時串流" if settings.ais_provider.lower() == "aisstream" else "模擬船"
+        print(f"[2/3] 匯入 AIS 靠港紀錄（{src}）...")
         n = refresh_ais(s)
         print(f"      新增靠港紀錄: {n}")
 
