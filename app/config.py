@@ -39,7 +39,17 @@ class Settings(BaseSettings):
     ais_mock_file: str = str(DATA_DIR / "mock_ais.json")
     aisstream_api_key: str = ""
     # aisstream 即時收集參數
-    ais_bbox: list = [[[21.0, 119.0], [26.5, 122.5]]]  # 台灣周邊（含高雄港）
+    # 多區域監看（單一連線可帶多個 bounding box）：涵蓋「有 aisstream 涵蓋」的區域港，
+    # 讓同一 MMSI 先後出現在外國港與台灣港時，能重建真實「外國港→台灣」航跡（真 prev_foreign_port）。
+    # 各港涵蓋率為實測結果（見 docs/資料來源與真假對照.md）；高雄目前 0 涵蓋仍保留方框以備未來。
+    ais_bbox: list = [
+        [[24.5, 121.2], [25.6, 122.3]],   # 基隆 / 北台灣（TWKEL，實測有涵蓋）
+        [[22.0, 119.8], [23.3, 120.9]],   # 高雄（TWKHH，目前 0 涵蓋，保留備用）
+        [[34.6, 128.5], [35.6, 129.7]],   # 釜山 KRPUS（實測涵蓋最佳）
+        [[21.8, 113.7], [22.8, 114.7]],   # 香港 HKHKG
+        [[0.8, 103.3], [1.7, 104.4]],     # 新加坡 SGSIN
+        [[35.0, 139.3], [35.9, 140.2]],   # 東京灣 JPTYO
+    ]
     ais_collect_seconds: float = 45.0     # 每次連線收集秒數
     ais_port_radius_km: float = 25.0      # 距港口座標多近視為「在港」
     ais_port_max_sog: float = 3.0         # SOG 高於此值視為過境、非靠港（節）
