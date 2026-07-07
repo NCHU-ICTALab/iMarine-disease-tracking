@@ -1,0 +1,293 @@
+<title>iMarine 真實 AIS 資料實測報告</title>
+<style>
+  :root{
+    --bg:#EBEFF4; --surface:#FFFFFF; --surface-2:#F4F7FA;
+    --ink:#0E1D2A; --ink-2:#43576A; --ink-3:#7C8C9B; --line:#DBE2EA;
+    --accent:#0E8FA6; --accent-deep:#0A6072; --accent-soft:#D7ECF0;
+    --warn:#B5731A; --warn-soft:#F4E6CE;
+    --serious:#B23A28; --serious-soft:#F3DBD5;
+    --good:#2E7D5B;
+    --font-sans:"Segoe UI","Microsoft JhengHei","PingFang TC","Hiragino Sans",system-ui,sans-serif;
+    --font-mono:"Cascadia Code","SF Mono",Consolas,"Roboto Mono",ui-monospace,monospace;
+    --shadow:0 1px 2px rgba(16,32,45,.05),0 8px 24px rgba(16,32,45,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0A141E; --surface:#10202D; --surface-2:#0D1B26;
+      --ink:#E7EEF4; --ink-2:#A7B7C5; --ink-3:#6E8091; --line:#22333F;
+      --accent:#2FB6CC; --accent-deep:#57C9DC; --accent-soft:#14313B;
+      --warn:#E0A93B; --warn-soft:#2E2716;
+      --serious:#E0684F; --serious-soft:#2E1712;
+      --good:#5FC397;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EBEFF4; --surface:#FFFFFF; --surface-2:#F4F7FA;
+    --ink:#0E1D2A; --ink-2:#43576A; --ink-3:#7C8C9B; --line:#DBE2EA;
+    --accent:#0E8FA6; --accent-deep:#0A6072; --accent-soft:#D7ECF0;
+    --warn:#B5731A; --warn-soft:#F4E6CE; --serious:#B23A28; --serious-soft:#F3DBD5; --good:#2E7D5B;
+    --shadow:0 1px 2px rgba(16,32,45,.05),0 8px 24px rgba(16,32,45,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A141E; --surface:#10202D; --surface-2:#0D1B26;
+    --ink:#E7EEF4; --ink-2:#A7B7C5; --ink-3:#6E8091; --line:#22333F;
+    --accent:#2FB6CC; --accent-deep:#57C9DC; --accent-soft:#14313B;
+    --warn:#E0A93B; --warn-soft:#2E2716; --serious:#E0684F; --serious-soft:#2E1712; --good:#5FC397;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1020px;margin:0 auto;padding:clamp(20px,4vw,56px) clamp(16px,4vw,32px);}
+  .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+
+  /* header */
+  header.masthead{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:36px;}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent-deep);font-weight:600;}
+  h1{font-size:clamp(26px,4.4vw,40px);line-height:1.12;margin:12px 0 10px;letter-spacing:-.01em;
+    text-wrap:balance;font-weight:800;}
+  .sub{color:var(--ink-2);font-size:clamp(15px,1.9vw,17px);max-width:62ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
+  .chip{font-family:var(--font-mono);font-size:12.5px;padding:5px 11px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--line);color:var(--ink-2);}
+  .chip b{color:var(--ink);font-weight:700;}
+
+  /* stat tiles */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:14px;}
+  .tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .tile .big{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:clamp(28px,4vw,36px);
+    font-weight:700;letter-spacing:-.02em;line-height:1;color:var(--ink);}
+  .tile .lbl{margin-top:8px;font-size:13px;color:var(--ink-2);}
+  .tile.flag-warn{background:var(--serious-soft);border-color:transparent;}
+  .tile.flag-warn .big{color:var(--serious);}
+  .tile.flag-warn .lbl{color:var(--serious);font-weight:600;}
+
+  section{margin-top:40px;}
+  h2{font-size:clamp(19px,2.6vw,23px);margin:0 0 4px;letter-spacing:-.01em;font-weight:750;}
+  .lede{color:var(--ink-2);font-size:14.5px;margin:0 0 20px;max-width:66ch;}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,26px);
+    box-shadow:var(--shadow);}
+
+  /* bar chart */
+  .bars{display:flex;flex-direction:column;gap:11px;}
+  .barrow{display:grid;grid-template-columns:132px 1fr 62px;align-items:center;gap:14px;}
+  .barrow .k{font-size:13.5px;color:var(--ink-2);display:flex;align-items:center;gap:7px;justify-content:flex-end;text-align:right;}
+  .barrow .k .code{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);}
+  .track{background:var(--surface-2);border-radius:5px;height:22px;overflow:hidden;}
+  .fill{height:100%;background:var(--accent);border-radius:5px;min-width:6px;
+    transition:filter .15s;}
+  .barrow:hover .fill{filter:brightness(1.08);}
+  .fill.home{background:var(--warn);}
+  .barrow .v{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:14px;
+    text-align:right;color:var(--ink);font-weight:600;}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--ink-2);}
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block;}
+
+  /* table */
+  .scroll{overflow-x:auto;border-radius:12px;border:1px solid var(--line);}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);}
+  th{background:var(--surface-2);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:700;position:sticky;top:0;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--surface-2);}
+  td.mono,.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+  .tag{font-family:var(--font-mono);font-size:11px;padding:2px 7px;border-radius:6px;
+    background:var(--accent-soft);color:var(--accent-deep);white-space:nowrap;}
+  .tag.tw{background:var(--warn-soft);color:var(--warn);}
+
+  /* finding callout */
+  .finding{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--serious);
+    border-radius:14px;padding:clamp(18px,3vw,26px);box-shadow:var(--shadow);}
+  .finding .flag{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--serious);font-weight:700;}
+  .finding h3{margin:8px 0 12px;font-size:clamp(17px,2.4vw,21px);letter-spacing:-.01em;}
+  .finding p{margin:0 0 12px;color:var(--ink-2);font-size:14.5px;}
+  .finding strong{color:var(--ink);}
+  .pairbox{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;}
+  .pair{flex:1;min-width:180px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .pair .p-top{font-family:var(--font-mono);font-size:14px;color:var(--ink);font-weight:600;}
+  .pair .p-sub{font-size:12.5px;color:var(--ink-3);margin-top:3px;}
+
+  /* islands diagram */
+  .islands{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:12px;margin:18px 0 4px;}
+  .isle{background:var(--surface-2);border:1px dashed var(--line);border-radius:14px;padding:14px 8px;text-align:center;}
+  .isle .dot{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--accent);}
+  .isle .nm{font-size:12px;color:var(--ink-2);margin-top:4px;}
+  .isle.gap{border-style:solid;border-color:var(--serious-soft);background:var(--serious-soft);}
+  .isle.gap .dot{color:var(--serious);}
+  .isle.gap .nm{color:var(--serious);}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:680px){.split{grid-template-columns:1fr}.barrow{grid-template-columns:96px 1fr 52px;gap:9px}}
+
+  .callout{background:var(--warn-soft);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--ink);}
+  footer{margin-top:44px;border-top:1px solid var(--line);padding-top:22px;color:var(--ink-3);font-size:13px;}
+  footer code{font-family:var(--font-mono);background:var(--surface-2);padding:2px 6px;border-radius:5px;color:var(--ink-2);}
+  a{color:var(--accent-deep);}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">iMarine · 疫情自動追溯 — 主軸三</div>
+    <h1>真實 AIS 資料 24 小時實測報告</h1>
+    <p class="sub">將風險引擎的船舶來源從模擬資料切換到 aisstream.io 即時串流，實測其真實涵蓋能力與邊界。資料為 2026-07-06～07 台灣周邊海域多區域連續收集。</p>
+    <div class="meta">
+      <span class="chip">來源 <b>aisstream.io</b>（免費即時串流）</span>
+      <span class="chip">收集 <b>24 小時 · 811 輪</b></span>
+      <span class="chip">監看 <b>基隆·釜山·香港·新加坡·東京灣</b></span>
+      <span class="chip">目標港 <b>基隆 TWKEL</b></span>
+    </div>
+  </header>
+
+  <!-- HERO STATS -->
+  <div class="tiles">
+    <div class="tile"><div class="big">2,170</div><div class="lbl">真實抵港船隻<br>（含真 MMSI／船名）</div></div>
+    <div class="tile"><div class="big">2,196</div><div class="lbl">靠港紀錄<br>橫跨 6 港</div></div>
+    <div class="tile"><div class="big">6</div><div class="lbl">船籍國旗別<br>（可辨識海運國）</div></div>
+    <div class="tile"><div class="big">64</div><div class="lbl">宣告目的地為<br>台灣港口的真實船</div></div>
+    <div class="tile flag-warn"><div class="big">0</div><div class="lbl">重建出的<br>跨國航跡</div></div>
+  </div>
+
+  <!-- PORT BAR CHART -->
+  <section>
+    <h2>各港偵測到的真實靠港船數</h2>
+    <p class="lede">單一 aisstream 連線同時監看 6 個區域港。有志工接收站的港口（釜山、新加坡、基隆、香港、東京灣）都能收到真實船位；系統以「港口座標鄰近＋低船速」判定靠港。</p>
+    <div class="card">
+      <div class="bars">
+        <div class="barrow"><div class="k">釜山 <span class="code">KRPUS</span></div><div class="track"><div class="fill" style="width:100%" title="626"></div></div><div class="v">626</div></div>
+        <div class="barrow"><div class="k">新加坡 <span class="code">SGSIN</span></div><div class="track"><div class="fill" style="width:86.3%" title="540"></div></div><div class="v">540</div></div>
+        <div class="barrow"><div class="k">基隆 <span class="code">TWKEL</span></div><div class="track"><div class="fill home" style="width:71.7%" title="449（目標港）"></div></div><div class="v">449</div></div>
+        <div class="barrow"><div class="k">香港 <span class="code">HKHKG</span></div><div class="track"><div class="fill" style="width:50.9%" title="319"></div></div><div class="v">319</div></div>
+        <div class="barrow"><div class="k">橫濱 <span class="code">JPYOK</span></div><div class="track"><div class="fill" style="width:19.2%" title="120"></div></div><div class="v">120</div></div>
+        <div class="barrow"><div class="k">東京 <span class="code">JPTYO</span></div><div class="track"><div class="fill" style="width:12.6%" title="79"></div></div><div class="v">79</div></div>
+        <div class="barrow"><div class="k">深圳 <span class="code">CNSZX</span></div><div class="track"><div class="fill" style="width:10.1%" title="63（香港方框外溢）"></div></div><div class="v">63</div></div>
+      </div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--accent)"></i>外國港</span>
+        <span><i class="sw" style="background:var(--warn)"></i>目標港（台灣 · 基隆）</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLAG DISTRIBUTION -->
+  <section>
+    <h2>真實船隊的船籍分布</h2>
+    <p class="lede">由每艘船 MMSI 前三碼（MID 海事識別碼）判定船籍國。收到的是一支真實、國際化的商船隊——南韓、台灣、新加坡、香港、中國、日本，以及大量權宜船籍（賴比瑞亞、巴拿馬、馬紹爾群島等）。</p>
+    <div class="card">
+      <div class="bars">
+        <div class="barrow"><div class="k">南韓</div><div class="track"><div class="fill" style="width:100%" title="512"></div></div><div class="v">512</div></div>
+        <div class="barrow"><div class="k">台灣</div><div class="track"><div class="fill" style="width:76%" title="389"></div></div><div class="v">389</div></div>
+        <div class="barrow"><div class="k">新加坡</div><div class="track"><div class="fill" style="width:54.3%" title="278"></div></div><div class="v">278</div></div>
+        <div class="barrow"><div class="k">香港</div><div class="track"><div class="fill" style="width:44.5%" title="228"></div></div><div class="v">228</div></div>
+        <div class="barrow"><div class="k">中國</div><div class="track"><div class="fill" style="width:31.6%" title="162"></div></div><div class="v">162</div></div>
+        <div class="barrow"><div class="k">日本</div><div class="track"><div class="fill" style="width:25%" title="128"></div></div><div class="v">128</div></div>
+        <div class="barrow"><div class="k">其他 · 權宜船籍</div><div class="track"><div class="fill" style="width:92.4%" title="473（賴比瑞亞/巴拿馬/馬紹爾群島等）"></div></div><div class="v">473</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHIP NAME SAMPLES -->
+  <section>
+    <h2>真實船隻樣本</h2>
+    <p class="lede">每艘皆為真實廣播的 MMSI / IMO / 船名 / 宣告目的地。可見到宣告駛往台灣港口的真實貨櫃船——包括「TW KHH（高雄）」，即使高雄本身收不到船位。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>船名</th><th>IMO</th><th>MMSI</th><th>宣告目的地</th><th>偵測港</th></tr></thead>
+        <tbody>
+          <tr><td>MAERSK INNOSHIMA</td><td class="mono">9348170</td><td class="mono">566779000</td><td>NZ AKL（奧克蘭）</td><td><span class="tag">HKHKG</span></td></tr>
+          <tr><td>YM INCEPTION</td><td class="mono">9319155</td><td class="mono">636012795</td><td>JP TYO（東京）</td><td><span class="tag tw">TWKEL</span></td></tr>
+          <tr><td>TS SURABAYA</td><td class="mono">9955442</td><td class="mono">538010946</td><td>TW KHH（高雄）</td><td><span class="tag tw">TWKEL</span></td></tr>
+          <tr><td>TAHO AFRICA</td><td class="mono">9800403</td><td class="mono">416042000</td><td>TW KHH（高雄）</td><td><span class="tag tw">TWKEL</span></td></tr>
+          <tr><td>SPIL NIRMALA</td><td class="mono">9367803</td><td class="mono">352978233</td><td>TWKEL &gt; VNSGN</td><td><span class="tag tw">TWKEL</span></td></tr>
+          <tr><td>STAR NAVIGATOR</td><td class="mono">9141077</td><td class="mono">311000165</td><td>JP NAH（那霸）</td><td><span class="tag tw">TWKEL</span></td></tr>
+          <tr><td>HUA YUN</td><td class="mono">9566344</td><td class="mono">416449000</td><td>KEL, TW（基隆）</td><td><span class="tag tw">TWKEL</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- KEY FINDING -->
+  <section>
+    <h2>關鍵發現：免費 AIS 的真正天花板</h2>
+    <p class="lede">收集到大量真實抵港船，卻在 24 小時內重建出「零」筆跨國航跡。這不是程式問題，而是免費眾包 AIS 的結構性限制。</p>
+    <div class="finding">
+      <div class="flag">Negative Result · 已用真實資料證實</div>
+      <h3>24 小時內，沒有任何一艘船的「外國港 → 基隆」航跡被重建出來</h3>
+      <p>風險模型的核心是「船的<strong>前一個外國港</strong> × 該地疫情」。2,170 艘船中，只有 <strong>26 艘</strong>曾出現在兩個港——而且<strong>全部是同一海灣內的本地對</strong>，沒有一艘連到基隆：</p>
+      <div class="pairbox">
+        <div class="pair"><div class="p-top">香港 ↔ 深圳 · 12 艘</div><div class="p-sub">相距約 30 km，共用同一片接收涵蓋</div></div>
+        <div class="pair"><div class="p-top">東京 ↔ 橫濱 · 14 艘</div><div class="p-sub">同屬東京灣，共用同一接收站</div></div>
+      </div>
+      <p style="margin-top:16px"><strong>根因：免費 AIS 的涵蓋是「一座座孤島」。</strong> 每個志工陸基接收站只看得到自己那片海灣（VHF 視線約 40–75 km），港與港之間的公海完全沒有涵蓋。要把兩座孤島連起來，得剛好在釜山抓到某船、又剛好在 1–2 天後它進基隆時再抓到同一 MMSI——在如此稀疏、機率性的取樣下，一次都沒發生。</p>
+      <div class="islands" aria-label="涵蓋孤島示意">
+        <div class="isle"><div class="dot">◉</div><div class="nm">釜山</div></div>
+        <div class="isle"><div class="dot">◉</div><div class="nm">新加坡</div></div>
+        <div class="isle"><div class="dot">◉</div><div class="nm">基隆</div></div>
+        <div class="isle"><div class="dot">◉</div><div class="nm">香港</div></div>
+        <div class="isle"><div class="dot">◉</div><div class="nm">東京灣</div></div>
+        <div class="isle gap"><div class="dot">✕</div><div class="nm">港間公海<br>無涵蓋</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE + KAOHSIUNG GAP -->
+  <section>
+    <div class="split">
+      <div>
+        <h2 style="font-size:18px">各港涵蓋率實測</h2>
+        <p class="lede" style="font-size:13.5px">每個港專屬方框收集 12 秒的獨立船數。</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>港口</th><th>UN/LOCODE</th><th>船數 / 12s</th></tr></thead>
+            <tbody>
+              <tr><td>釜山（韓）</td><td class="mono">KRPUS</td><td class="mono">17</td></tr>
+              <tr><td>基隆（台）</td><td class="mono">TWKEL</td><td class="mono">7</td></tr>
+              <tr><td>香港</td><td class="mono">HKHKG</td><td class="mono">2</td></tr>
+              <tr><td>東京（日）</td><td class="mono">JPTYO</td><td class="mono">2</td></tr>
+              <tr><td>新加坡</td><td class="mono">SGSIN</td><td class="mono">1</td></tr>
+              <tr><td style="color:var(--serious)">高雄（台）· 上海 · 馬尼拉 · 孟買…</td><td class="mono" style="color:var(--serious)">—</td><td class="mono" style="color:var(--serious)">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-size:18px">為何高雄港「沒有船」</h2>
+        <p class="lede" style="font-size:13.5px">高雄是全球最忙的港之一，船當然都在——是 aisstream 收不到訊號。</p>
+        <div class="callout">
+          <strong>高雄一帶沒有餵資料給 aisstream 的志工接收站</strong>，離最近的北部接收站約 300 km，遠超 VHF 視線範圍。連續 6 小時＋專屬取樣，高雄皆為 <b class="num">0</b> 艘。<br><br>
+          對照：MarineTraffic／VesselFinder 網站看高雄滿滿是船——因為它們有<strong>衛星＋更多接收站</strong>。可見「船是在的，只是免費來源收不到」。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section>
+    <h2>結論與升級路徑</h2>
+    <div class="card">
+      <p style="margin:0 0 14px;color:var(--ink-2);font-size:14.5px"><strong style="color:var(--ink)">免費眾包陸基 AIS，能證明「系統可即時接進大量真實抵港船」，但做不出「有風險分數」的真實 demo</strong>——因為它既無高雄涵蓋、也無法提供跨國航跡歷史。</p>
+      <div class="split">
+        <div class="pair" style="background:var(--surface-2)">
+          <div class="p-top" style="color:var(--good)">✓ 免費版能站得住腳的用途</div>
+          <div class="p-sub" style="margin-top:8px;line-height:1.7">① 證明即時接入 <b class="num">2,000+</b> 艘真實船的能力。<br>② 由 Destination 欄位觀察宣告駛往高雄／基隆的真實船。<br>③ 風險引擎正確性用 mock（外國港 × 真疫情）佐證。</div>
+        </div>
+        <div class="pair" style="background:var(--surface-2)">
+          <div class="p-top" style="color:var(--accent-deep)">→ 要「真船 × 真外國港 × 真疫情 → 真風險」</div>
+          <div class="p-sub" style="margin-top:8px;line-height:1.7">升級到<strong>含航跡歷史的付費／衛星 AIS</strong>（Datalastic／MarineTraffic／Spire），一次解決高雄涵蓋與跨國前一港。介面已抽象化，換來源不動分析與 API 層。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    資料：aisstream.io 即時串流，2026-07-06～07 多區域 24h 連續收集（<code>scripts/collect_ais_loop.py</code>）。
+    疫情端：疾管署 + WHO 真實資料。完整方法與升級細節見 <code>docs/資料來源與真假對照.md</code>、<code>docs/AIS來源評估與升級路徑.md</code>。
+  </footer>
+</div>
