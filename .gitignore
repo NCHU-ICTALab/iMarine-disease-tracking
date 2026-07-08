@@ -7,5 +7,9 @@ data/ais_sightings*.json
 data/aisstream_sample.json
 data/collect_loop.log
 data/ne_land.geojson
+data/tracks_log.jsonl
+data/tracks_names.json
+data/tracks_collect.log
 docs/_frame_check.png
+docs/_track_frame.png
 .pytest_cache/
