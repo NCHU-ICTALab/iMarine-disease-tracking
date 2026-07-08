@@ -11,3 +11,7 @@ python-dateutil==2.9.0.post0
 PyYAML==6.0.2
 websockets==14.1
 pytest==8.3.4
+# 視覺化（scripts/make_observation_gif.py）
+matplotlib==3.11.0
+numpy==2.5.1
+pillow==12.3.0

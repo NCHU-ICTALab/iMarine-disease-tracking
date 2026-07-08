@@ -6,4 +6,6 @@ data/*.db
 data/ais_sightings*.json
 data/aisstream_sample.json
 data/collect_loop.log
+data/ne_land.geojson
+docs/_frame_check.png
 .pytest_cache/
