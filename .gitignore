@@ -12,4 +12,5 @@ data/tracks_names.json
 data/tracks_collect.log
 docs/_frame_check.png
 docs/_track_frame.png
+docs/_panels_frame.png
 .pytest_cache/
