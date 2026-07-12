@@ -10,6 +10,12 @@ data/ne_land.geojson
 data/tracks_log.jsonl
 data/tracks_names.json
 data/tracks_collect.log
+data/motc_sightings.json
+data/motc_log.jsonl
+data/motc_collect.log
+data/motc_snapshot.json
+data/coverage_survey.json
+data/linked_arrivals.json
 docs/_frame_check.png
 docs/_track_frame.png
 docs/_panels_frame.png

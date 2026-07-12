@@ -56,6 +56,13 @@ class Settings(BaseSettings):
     ais_sightings_file: str = str(DATA_DIR / "ais_sightings.json")
     ports_seed_file: str = str(DATA_DIR / "ports_seed.csv")
 
+    # MOTC（航港局）臺灣海域即時船位：公開、免授權的地圖前端端點。
+    # 只用當下船位（不碰需授權端點）。台灣端靠港偵測沿用 ais_port_radius_km / ais_port_max_sog。
+    motc_ais_url: str = "https://mpbais.motcmpb.gov.tw/aismpb/tools/geojsonais.ashx"
+    motc_poll_seconds: float = 180.0      # 每 3 分鐘輪詢一次（禮貌）
+    motc_sightings_file: str = str(DATA_DIR / "motc_sightings.json")
+    motc_log_file: str = str(DATA_DIR / "motc_log.jsonl")
+
     # 風險 / 推播
     notify_min_level: str = "high"        # low | medium | high | critical
 
