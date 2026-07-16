@@ -12,10 +12,25 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.models import RiskAssessment, Ship
 
-DATA_NOTE = (
-    "疫情為真實資料（疾管署 / WHO），船舶航跡為模擬資料。"
-    "詳見 docs/資料來源與真假對照.md"
-)
+_DATA_NOTES = {
+    "motc": (
+        "疫情為真實資料（疾管署 / WHO）；抵港船為真實資料（航港局 MOTC 臺灣海域船位），"
+        "前一外國港由 MOTC×aisstream 以 MMSI 串聯還原（僅涵蓋有 aisstream 涵蓋的亞太 hub，"
+        "南亞/中東/非洲疫情港無涵蓋）。詳見 docs/資料來源與真假對照.md"
+    ),
+    "aisstream": (
+        "疫情為真實資料（疾管署 / WHO）；船舶為 aisstream 即時真實船位。"
+        "免費 AIS 高雄 0 涵蓋、無跨國航跡歷史。詳見 docs/資料來源與真假對照.md"
+    ),
+    "mock": (
+        "疫情為真實資料（疾管署 / WHO），船舶航跡為模擬資料。"
+        "詳見 docs/資料來源與真假對照.md"
+    ),
+}
+
+
+def data_note() -> str:
+    return _DATA_NOTES.get(settings.ais_provider.lower(), _DATA_NOTES["mock"])
 
 # 目標港顯示名（MVP 聚焦高雄）
 _PORT_DISPLAY = {"TWKHH": "高雄港"}
@@ -68,6 +83,6 @@ def clean_bundle(
     return {
         "generated_at": (as_of or datetime.utcnow()).isoformat(),
         "target_port": target_port_display(),
-        "data_note": DATA_NOTE,
+        "data_note": data_note(),
         "assessments": [clean_assessment(session, a, max_matches) for a in ordered],
     }

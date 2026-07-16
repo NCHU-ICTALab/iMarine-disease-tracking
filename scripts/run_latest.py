@@ -19,9 +19,9 @@ from app.pipeline import refresh_outbreaks, refresh_ais, assess_all  # noqa: E40
 from app.service.presenter import clean_bundle    # noqa: E402
 from app.models import Notification               # noqa: E402
 
-# 真實串流（aisstream）的靠港時間是「現在」，用當下時間評估；
+# 真實來源（aisstream / motc 串聯）的靠港時間是「現在」，用當下時間評估；
 # 模擬資料的時間停在 2026-07 上旬，沿用固定 AS_OF 讓 demo 可重現。
-AS_OF = datetime.utcnow() if settings.ais_provider.lower() == "aisstream" else datetime(2026, 7, 3)
+AS_OF = datetime(2026, 7, 3) if settings.ais_provider.lower() == "mock" else datetime.utcnow()
 
 
 def main() -> None:
@@ -34,7 +34,8 @@ def main() -> None:
         print("      疾管署:", ob.get("cdc"))
         print("      WHO   :", ob.get("who"))
 
-        src = "aisstream 即時串流" if settings.ais_provider.lower() == "aisstream" else "模擬船"
+        src = {"aisstream": "aisstream 即時串流", "motc": "MOTC×aisstream 串聯（真實）"}.get(
+            settings.ais_provider.lower(), "模擬船")
         print(f"[2/3] 匯入 AIS 靠港紀錄（{src}）...")
         n = refresh_ais(s)
         print(f"      新增靠港紀錄: {n}")

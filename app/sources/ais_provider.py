@@ -268,6 +268,48 @@ class AISStreamProvider(AISProvider):
             json.dump(store, f, ensure_ascii=False, indent=2)
 
 
+class MOTCLinkProvider(AISProvider):
+    """由 MOTC×aisstream 串聯結果（linked_arrivals.json）產生靠港序列。
+
+    每艘串聯成功的船 → 兩筆靠港：前一外國港（aisstream 在外國 hub 拍到的時間）
+    + 台灣抵達港（MOTC 拍到的時間）。這讓風險引擎能對「真實抵達高雄、且有真實
+    前一外國港」的船跑時序比對——即「高雄 × 真船 × 真前一港 × 真疫情」。
+    串聯與涵蓋限制見 docs/資料來源與真假對照.md、AIS來源評估與升級路徑.md。
+    """
+
+    source_name = "motc_link"
+
+    def __init__(self, path: str | Path | None = None):
+        self.path = Path(path or settings.linked_arrivals_file)
+
+    def fetch_port_calls(self) -> list[PortCallRecord]:
+        if not self.path.exists():
+            raise RuntimeError(
+                f"找不到 {self.path}；請先跑 scripts/link_sources.py 產生串聯結果。"
+            )
+        with open(self.path, encoding="utf-8") as f:
+            data = json.load(f)
+
+        records: list[PortCallRecord] = []
+        for r in data:
+            mmsi = r["mmsi"]
+            imo = r.get("imo")
+            name = r.get("name")
+            records.append(PortCallRecord(
+                ship_code=mmsi, mmsi=mmsi, imo=imo, name=name,
+                port_unlocode=r["prev_foreign_port"].strip().upper(),
+                arrival=_parse_dt(r["prev_seen_utc"]), departure=None,
+                source=self.source_name,
+            ))
+            records.append(PortCallRecord(
+                ship_code=mmsi, mmsi=mmsi, imo=imo, name=name,
+                port_unlocode=r["tw_port"].strip().upper(),
+                arrival=_parse_dt(r["tw_arrival_utc"]), departure=None,
+                source=self.source_name,
+            ))
+        return records
+
+
 def get_provider() -> AISProvider:
     """依設定回傳 AIS 來源實作。"""
     provider = settings.ais_provider.lower()
@@ -275,6 +317,8 @@ def get_provider() -> AISProvider:
         return MockAISProvider()
     if provider == "aisstream":
         return AISStreamProvider()
+    if provider == "motc":
+        return MOTCLinkProvider()
     raise NotImplementedError(f"AIS provider 尚未實作: {provider}")
 
 

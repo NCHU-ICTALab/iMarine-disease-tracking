@@ -1,50 +1,14 @@
 {
-  "generated_at": "2026-07-03T00:00:00",
+  "generated_at": "2026-07-16T13:16:45.569468",
   "target_port": "TWKHH (高雄港)",
-  "data_note": "疫情為真實資料（疾管署 / WHO），船舶航跡為模擬資料。詳見 docs/資料來源與真假對照.md",
+  "data_note": "疫情為真實資料（疾管署 / WHO）；抵港船為真實資料（航港局 MOTC 臺灣海域船位），前一外國港由 MOTC×aisstream 以 MMSI 串聯還原（僅涵蓋有 aisstream 涵蓋的亞太 hub，南亞/中東/非洲疫情港無涵蓋）。詳見 docs/資料來源與真假對照.md",
   "assessments": [
     {
-      "ship_code": "PACIFICSTAR",
-      "ship_name": "Pacific Star",
-      "prev_port": "VNSGN",
-      "risk_level": "critical",
-      "score": 0.762,
-      "matched_outbreaks": [
-        {
-          "port": "VNSGN",
-          "country": "VN",
-          "disease": "M痘",
-          "report_date": "2026-06-09",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "VNSGN",
-          "country": "VN",
-          "disease": "登革熱",
-          "report_date": "2026-02-03",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "SGSIN",
-          "country": "SG",
-          "disease": "登革熱",
-          "report_date": "2025-10-28",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        }
-      ]
-    },
-    {
-      "ship_code": "MANILAEXP12",
-      "ship_name": "Manila Express",
+      "ship_code": "219027748",
+      "ship_name": "NAKSKOV MAERSK",
       "prev_port": "HKHKG",
       "risk_level": "high",
-      "score": 0.735,
+      "score": 0.689,
       "matched_outbreaks": [
         {
           "port": "HKHKG",
@@ -63,48 +27,30 @@
           "relation": "during_or_before",
           "source": "cdc",
           "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "PHMNL",
-          "country": "PH",
-          "disease": "M痘",
-          "report_date": "2026-04-28",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
         }
       ]
     },
     {
-      "ship_code": "EVERGLORY01",
-      "ship_name": "Ever Glory",
-      "prev_port": "CNSHA",
+      "ship_code": "538002090",
+      "ship_name": "CONSTELLATION",
+      "prev_port": "HKHKG",
       "risk_level": "high",
-      "score": 0.694,
+      "score": 0.689,
       "matched_outbreaks": [
         {
-          "port": "CNSHA",
-          "country": "CN",
+          "port": "HKHKG",
+          "country": "HK",
           "disease": "新型A型流感",
-          "report_date": "2026-01-20",
+          "report_date": "2026-06-16",
           "relation": "during_or_before",
           "source": "cdc",
           "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
         },
         {
-          "port": "CNSHA",
-          "country": "CN",
-          "disease": "新型A型流感",
-          "report_date": "2025-09-16",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "CNSHA",
-          "country": "CN",
-          "disease": "屈公病",
-          "report_date": "2026-04-28",
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
           "relation": "during_or_before",
           "source": "cdc",
           "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
@@ -112,71 +58,287 @@
       ]
     },
     {
-      "ship_code": "OCEANDUKE07",
-      "ship_name": "Ocean Duke",
+      "ship_code": "357979000",
+      "ship_name": "UNI PERFECT",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "563219100",
+      "ship_name": "EVER MAGI",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "563170300",
+      "ship_name": "WAN HAI A07",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "416004906",
+      "ship_name": "YANG YI",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "563281300",
+      "ship_name": "SEASPAN YINGKOU",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "416004878",
+      "ship_name": "SHENG  YI  FA",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "355341000",
+      "ship_name": "EVER CHARM",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "636013118",
+      "ship_name": "YM INSTRUCTION",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "477806000",
+      "ship_name": "OOCL SAN FRANCISCO",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "355224000",
+      "ship_name": "GREEN CELEBRITY",
+      "prev_port": "HKHKG",
+      "risk_level": "high",
+      "score": 0.689,
+      "matched_outbreaks": [
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "新型A型流感",
+          "report_date": "2026-06-16",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        },
+        {
+          "port": "HKHKG",
+          "country": "HK",
+          "disease": "M痘",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "416312000",
+      "ship_name": "HER  HUNG 16",
       "prev_port": "SGSIN",
-      "risk_level": "high",
-      "score": 0.565,
-      "matched_outbreaks": [
-        {
-          "port": "INBOM",
-          "country": "IN",
-          "disease": "Nipah virus disease",
-          "report_date": "2026-06-25",
-          "relation": "post_departure",
-          "source": "who",
-          "source_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON609"
-        },
-        {
-          "port": "INBOM",
-          "country": "IN",
-          "disease": "立百病毒感染症",
-          "report_date": "2026-04-02",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "INBOM",
-          "country": "IN",
-          "disease": "Nipah virus disease",
-          "report_date": "2026-01-30",
-          "relation": "during_or_before",
-          "source": "who",
-          "source_url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON593"
-        }
-      ]
-    },
-    {
-      "ship_code": "NIPPONMARU9",
-      "ship_name": "Nippon Maru",
-      "prev_port": "KRPUS",
       "risk_level": "medium",
-      "score": 0.547,
+      "score": 0.417,
       "matched_outbreaks": [
         {
-          "port": "JPTYO",
-          "country": "JP",
-          "disease": "麻疹",
-          "report_date": "2026-04-22",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "JPTYO",
-          "country": "JP",
-          "disease": "M痘",
-          "report_date": "2026-02-03",
-          "relation": "during_or_before",
-          "source": "cdc",
-          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
-        },
-        {
-          "port": "JPTYO",
-          "country": "JP",
-          "disease": "M痘",
-          "report_date": "2025-09-30",
+          "port": "SGSIN",
+          "country": "SG",
+          "disease": "登革熱",
+          "report_date": "2025-10-28",
           "relation": "during_or_before",
           "source": "cdc",
           "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
@@ -184,9 +346,35 @@
       ]
     },
     {
-      "ship_code": "OLDCALLTEST",
-      "ship_name": "Old Call Test",
-      "prev_port": null,
+      "ship_code": "357980000",
+      "ship_name": "UNI-PRUDENT",
+      "prev_port": "SGSIN",
+      "risk_level": "medium",
+      "score": 0.417,
+      "matched_outbreaks": [
+        {
+          "port": "SGSIN",
+          "country": "SG",
+          "disease": "登革熱",
+          "report_date": "2025-10-28",
+          "relation": "during_or_before",
+          "source": "cdc",
+          "source_url": "https://www.cdc.gov.tw/InternationalEpidemicLevel/Index/NlUwZUNvckRWQ09CbDJkRVFjaExjUT09"
+        }
+      ]
+    },
+    {
+      "ship_code": "232008128",
+      "ship_name": "BERGE PHAN XI PANG",
+      "prev_port": "KRPUS",
+      "risk_level": "low",
+      "score": 0.0,
+      "matched_outbreaks": []
+    },
+    {
+      "ship_code": "229334000",
+      "ship_name": "CNC BANGKOK",
+      "prev_port": "KRPUS",
       "risk_level": "low",
       "score": 0.0,
       "matched_outbreaks": []
