@@ -4,6 +4,7 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import os
 
@@ -34,6 +35,17 @@ app = FastAPI(
     description="重建進港船靠港序列，交叉比對疫情時序，輸出風險等級與防護建議。",
     version="0.1.0",
     lifespan=lifespan,
+)
+
+# CORS：供前端整合層（iMarine-FrontEnd，Vite dev :5173）瀏覽器直接 fetch /assessments。
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173", "http://127.0.0.1:5173",
+        "http://localhost:4173", "http://127.0.0.1:4173",  # vite preview
+    ],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 app.include_router(router)
